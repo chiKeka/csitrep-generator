@@ -31,11 +31,25 @@ If option 2, skip to Step 4.
 
 ## Step 2: Project Setup (Condensed)
 
-Collect all project details in a single prompt. Present it as a form:
+Offer document-based setup first:
 
 ```
-Let's configure your project. Fill in the details:
+How would you like to provide project details?
 
+1. From a document - Drop a charter, scope, proposal, or contract (fastest)
+2. Enter manually  - I'll ask a few questions
+```
+
+### If from a document:
+Ask for the file path. Run `bash ./scripts/preprocess.sh` to convert if needed.
+Read the document and extract: project name, type (inferred from content), number,
+owner, lead, start/end dates, budget, currency.
+
+Present extracted details for confirmation. Only ask about fields that couldn't
+be found. If the project type couldn't be inferred, present the 6 options.
+
+### If manual:
+```
 Project type:
   1. Construction   2. Software/IT   3. Development Program
   4. Product/Mfg    5. Consulting    6. Custom
@@ -49,7 +63,7 @@ End date (YYYY-MM-DD):
 Reporting period: weekly / monthly
 ```
 
-Wait for the user to provide all details. Accept partial answers and ask follow-ups only for missing required fields (name, type, lead are required; others have sensible defaults).
+Accept partial answers and ask follow-ups only for missing required fields (name, type, lead are required; others have sensible defaults).
 
 ## Step 3: Create Folders and Config
 

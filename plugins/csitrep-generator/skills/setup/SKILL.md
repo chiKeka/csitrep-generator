@@ -35,6 +35,67 @@ Wait for their selection.
 
 ## Step 2: Collect Project Details
 
+Ask the user how they want to provide project details:
+
+```
+How would you like to set up the project?
+
+1. From a document  - Drop a project charter, scope, proposal, or contract
+                      and I'll extract the details automatically
+2. Enter manually   - I'll ask you a few questions
+```
+
+### Option 1: From a Document
+
+If the user chooses document-based setup, ask them to provide the file path:
+```
+Drop your project document here (charter, scope, proposal, contract, brief, etc.)
+Supported: PDF, Word (.docx/.doc), Excel (.xlsx), PowerPoint (.pptx), or text files
+
+Paste the file path:
+```
+
+Once they provide the file:
+1. Run the preprocess script first to convert if needed:
+   ```bash
+   bash ./scripts/preprocess.sh
+   ```
+2. Read the document (Claude reads PDF natively; for Office files, read the converted .txt/.csv)
+3. Extract these fields from the document:
+   - **Project name** - look for title, project name, engagement name
+   - **Project type** - infer from content (construction terms = construction, sprint/backlog = software, etc.)
+   - **Project number** - look for reference numbers, contract numbers, PO numbers
+   - **Owner / client** - look for client name, owner, employer, sponsor
+   - **Project lead / PM** - look for project manager, PM, lead, point of contact
+   - **Start date** - look for commencement, start date, kick-off, effective date
+   - **End date** - look for completion, end date, deadline, delivery date
+   - **Budget** - look for contract value, budget, total cost, fee, funding amount
+   - **Currency** - infer from currency symbols or country context
+   - **Reporting period** - default to weekly unless the document specifies otherwise
+
+4. Present the extracted details for confirmation:
+   ```
+   I extracted the following from your document:
+
+     Project name:    [extracted]
+     Type:            [inferred] (based on [reason])
+     Project number:  [extracted or "Not found"]
+     Owner:           [extracted]
+     Lead:            [extracted or "Not found - please provide"]
+     Start date:      [extracted]
+     End date:        [extracted]
+     Budget:          [currency] [amount]
+     Reporting:       [weekly/monthly]
+
+   Is this correct? Edit anything that needs changing, or type "yes" to confirm.
+   ```
+
+5. If any required fields weren't found (name, type, lead), ask only for those specific missing fields. Don't re-ask for fields that were successfully extracted.
+
+If the document also contains scope breakdowns, work packages, deliverables, or domain-specific details, note these for use when configuring the data folders -- they can help inform which documents go where.
+
+### Option 2: Enter Manually
+
 Ask for:
 - Project name
 - Project number (optional)
