@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Riverside Office Complex - SitRep Dashboard</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0f172a; color: #e2e8f0; padding: 24px; }
+  .header { text-align: center; padding: 24px 0; border-bottom: 2px solid #334155; margin-bottom: 24px; }
+  .header h1 { font-size: 28px; color: #f8fafc; }
+  .header .meta { color: #94a3b8; font-size: 14px; margin-top: 8px; }
+  .summary-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+  .card { background: #1e293b; border-radius: 12px; padding: 20px; border-left: 4px solid; }
+  .card.critical { border-left-color: #ef4444; }
+  .card.watch { border-left-color: #f59e0b; }
+  .card.ontrack { border-left-color: #22c55e; }
+  .card .count { font-size: 36px; font-weight: 700; }
+  .card.critical .count { color: #ef4444; }
+  .card.watch .count { color: #f59e0b; }
+  .card.ontrack .count { color: #22c55e; }
+  .card .label { color: #94a3b8; font-size: 14px; margin-top: 4px; }
+  .domains { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 16px; margin-bottom: 24px; }
+  .domain { background: #1e293b; border-radius: 12px; padding: 20px; }
+  .domain h3 { font-size: 16px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .status-badge { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; text-transform: uppercase; }
+  .status-badge.critical { background: #991b1b; color: #fca5a5; }
+  .status-badge.watch { background: #92400e; color: #fcd34d; }
+  .status-badge.ontrack { background: #166534; color: #86efac; }
+  .domain .metrics { color: #cbd5e1; font-size: 14px; line-height: 1.8; }
+  .domain .findings { margin-top: 12px; }
+  .domain .finding { padding: 8px 0; border-top: 1px solid #334155; font-size: 13px; color: #94a3b8; }
+  .actions { background: #1e293b; border-radius: 12px; padding: 20px; margin-bottom: 24px; }
+  .actions h2 { font-size: 18px; margin-bottom: 16px; }
+  .actions table { width: 100%; border-collapse: collapse; }
+  .actions th { text-align: left; padding: 8px 12px; border-bottom: 2px solid #334155; color: #94a3b8; font-size: 12px; text-transform: uppercase; }
+  .actions td { padding: 8px 12px; border-bottom: 1px solid #334155; font-size: 14px; }
+  .executive { background: #1e293b; border-radius: 12px; padding: 20px; margin-bottom: 24px; }
+  .executive h2 { font-size: 18px; margin-bottom: 12px; }
+  .executive p { color: #cbd5e1; line-height: 1.6; }
+  .issues-list { list-style: none; padding: 0; }
+  .issues-list li { padding: 12px 0; border-bottom: 1px solid #334155; }
+  .issues-list li:last-child { border-bottom: none; }
+  .issue-domain { font-weight: 600; color: #f8fafc; }
+  .issue-detail { color: #94a3b8; font-size: 14px; margin-top: 4px; }
+  .watch-list { list-style: none; padding: 0; }
+  .watch-list li { padding: 8px 0; border-bottom: 1px solid #334155; font-size: 14px; color: #cbd5e1; }
+  .watch-list li:last-child { border-bottom: none; }
+  .watch-dot { color: #f59e0b; margin-right: 6px; }
+  .footer { text-align: center; padding: 24px 0; color: #475569; font-size: 12px; border-top: 1px solid #334155; margin-top: 24px; }
+  @media print { body { background: white; color: #1e293b; } .card, .domain, .actions, .executive { border: 1px solid #e2e8f0; background: #f8fafc; } .header { border-bottom-color: #e2e8f0; } .status-badge.critical { background: #fee2e2; color: #991b1b; } .status-badge.watch { background: #fef3c7; color: #92400e; } .status-badge.ontrack { background: #dcfce7; color: #166534; } .domain .finding, .watch-list li, .issues-list li, .actions td { border-color: #e2e8f0; color: #475569; } .footer { border-top-color: #e2e8f0; } }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Riverside Office Complex</h1>
+  <div class="meta">Situation Report | March 7, 2026 | Weekly Report | Lead: Mike Torres</div>
+  <div class="meta">Budget: USD $12,800,000 | Timeline: January 15, 2026 to June 30, 2027</div>
+</div>
+
+<!-- Summary Cards -->
+<div class="summary-cards">
+  <div class="card critical">
+    <div class="count">4</div>
+    <div class="label">Critical Issues</div>
+  </div>
+  <div class="card watch">
+    <div class="count">8</div>
+    <div class="label">Watch Items</div>
+  </div>
+  <div class="card ontrack">
+    <div class="count">6</div>
+    <div class="label">On Track</div>
+  </div>
+</div>
+
+<!-- Executive Summary -->
+<div class="executive">
+  <h2>Executive Summary</h2>
+  <p>The Riverside Office Complex has 4 critical issues requiring immediate decisions and 8 watch items trending negative. The structural steel delivery delay (12 days), foundation grade beam negative float (-3 days), two overdue OSHA violations, and a stalled structural engineering package collectively threaten the critical path. Cost is currently within budget but $192K in pending change orders and contingency erosion warrant close monitoring. Safety had one recordable incident this period.</p>
+</div>
+
+<!-- Critical Issues -->
+<div class="executive">
+  <h2>Critical Issues</h2>
+  <ul class="issues-list">
+    <li>
+      <span class="issue-domain">SCHEDULE - Structural steel delivery delayed 12 days</span>
+      <div class="issue-detail">Only 1 day margin before planned erection start (04/01). All downstream work (deck, MEP, envelope) at risk. Action: Demand recovery plan from fabricator. Evaluate partial deliveries, overtime erection, or re-sequencing zones.</div>
+    </li>
+    <li>
+      <span class="issue-domain">SCHEDULE - Foundation grade beams at -3 days negative float</span>
+      <div class="issue-detail">Predecessor to steel erection. Current trajectory makes 04/01 erection start unachievable. Action: Add concrete and rebar crew resources immediately to recover lost time.</div>
+    </li>
+    <li>
+      <span class="issue-domain">SAFETY - Two OSHA violations overdue (2 days)</span>
+      <div class="issue-detail">Unshored trench >5ft in Zone B (1926.652) and missing barricades at open footings in Zone A (1926.502). Imminent danger conditions. Action: Stop work in affected areas until corrections verified. Close out today.</div>
+    </li>
+    <li>
+      <span class="issue-domain">CONTRACTS - Structural engineer bottleneck</span>
+      <div class="issue-detail">Structural engineer assigned to 5 of 6 open RFIs and 2 critical submittals. Steel shop drawings rejected, mill certs 13 days overdue, RFI-045 (soil bearing) may require foundation redesign. Action: Escalate to structural engineering firm for additional support.</div>
+    </li>
+  </ul>
+</div>
+
+<!-- Watch Items -->
+<div class="executive">
+  <h2>Watch Items</h2>
+  <ul class="watch-list">
+    <li><span class="watch-dot">&#9679;</span>Unexpected rock in Zone B excavation, may require blasting</li>
+    <li><span class="watch-dot">&#9679;</span>Two footings poured with wrong concrete mix (4000 vs 5000 psi)</li>
+    <li><span class="watch-dot">&#9679;</span>Site Work over-committed by $70K (5.1% variance)</li>
+    <li><span class="watch-dot">&#9679;</span>Contingency reduced to $350K (2.7%). Pending COs of $192K</li>
+    <li><span class="watch-dot">&#9679;</span>Defective tie wire batch linked to recordable injury</li>
+    <li><span class="watch-dot">&#9679;</span>Electrical panel submittal 7 days late (SUB-107)</li>
+    <li><span class="watch-dot">&#9679;</span>Waterproofing submittal 1 day overdue (SUB-105)</li>
+    <li><span class="watch-dot">&#9679;</span>CAT 320 excavator down for hydraulic repair</li>
+  </ul>
+</div>
+
+<!-- Domain Status Cards -->
+<div class="domains">
+  <div class="domain">
+    <h3>Schedule <span class="status-badge critical">Critical</span></h3>
+    <div class="metrics">
+      Planned % Complete: 14.5%<br>
+      Actual % Complete: 17.6%<br>
+      Critical Path: COMPROMISED - A1040 at -3 days float<br>
+      Schedule Variance: Ahead on earned value, critical path at risk
+    </div>
+    <div class="findings">
+      <div class="finding">A1040 Grade Beams: 30% complete, -3 days float</div>
+      <div class="finding">A1050 Steel Fabrication: 70%, 12-day delivery delay</div>
+      <div class="finding">Steel erection start (04/01) at risk from both delays</div>
+    </div>
+  </div>
+
+  <div class="domain">
+    <h3>Cost &amp; Budget <span class="status-badge watch">Watch</span></h3>
+    <div class="metrics">
+      Total Budget: $12,955,000 (incl. $155K approved)<br>
+      Spent to Date: $2,950,000 (22.8%)<br>
+      Committed: $8,510,000 (65.7%)<br>
+      Contingency: $350,000 (2.7%)
+    </div>
+    <div class="findings">
+      <div class="finding">Site Work over-committed by $70K due to soil conditions</div>
+      <div class="finding">3 pending COs totaling $192K would consume half of contingency</div>
+      <div class="finding">Differing site conditions pattern suggests potential for more COs</div>
+    </div>
+  </div>
+
+  <div class="domain">
+    <h3>Safety <span class="status-badge watch">Watch</span></h3>
+    <div class="metrics">
+      Recordable Incidents: 1 (wire laceration, 03/03)<br>
+      Lost Time Injuries: 0<br>
+      Open Corrective Actions: 7 (2 overdue)<br>
+      Safety Training: 96% | Toolbox Talks: 100%
+    </div>
+    <div class="findings">
+      <div class="finding">2 overdue OSHA violations: trench shoring &amp; barricades</div>
+      <div class="finding">Unsecured gas cylinders also overdue (1926.350)</div>
+      <div class="finding">PPE compliance excellent, 12 safety observations this week</div>
+    </div>
+  </div>
+
+  <div class="domain">
+    <h3>Contracts &amp; Admin <span class="status-badge critical">Critical</span></h3>
+    <div class="metrics">
+      Open RFIs: 6 (2 overdue, 1 due today)<br>
+      Blocking Work: 3 RFIs<br>
+      Pending Submittals: 5 (3 overdue/late)<br>
+      Structural Engineer: Backlogged
+    </div>
+    <div class="findings">
+      <div class="finding">Structural engineer is single point of failure across 5 RFIs + 2 submittals</div>
+      <div class="finding">RFI-045 soil bearing 6 days overdue, may require redesign</div>
+      <div class="finding">Steel shop drawings rejected, mill certs 13 days overdue</div>
+    </div>
+  </div>
+
+  <div class="domain">
+    <h3>Site Conditions <span class="status-badge watch">Watch</span></h3>
+    <div class="metrics">
+      Workforce: 92 of 95 planned (97%)<br>
+      Weather Impact: 2 days lost expected (03/08-09)<br>
+      Equipment Issues: CAT 320 down, crane on standby<br>
+      Material Deliveries: 3 on schedule, 1 delayed
+    </div>
+    <div class="findings">
+      <div class="finding">Rock encountered at -18ft in Zone B, hammer mobilizing 03/09</div>
+      <div class="finding">Neighbor noise complaint, meeting scheduled 03/10</div>
+      <div class="finding">Temporary power to Zone B complete, plumbing progressing</div>
+    </div>
+  </div>
+</div>
+
+<!-- Recommended Actions -->
+<div class="actions">
+  <h2>Recommended Actions</h2>
+  <table>
+    <thead>
+      <tr><th>#</th><th>Action</th><th>Owner</th><th>Due</th><th>Domain</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>Close OSHA violations: install trench shoring Zone B and barricades Zone A. Stop work until verified.</td>
+        <td>Safety Manager</td>
+        <td>03/07 (TODAY)</td>
+        <td>Safety</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>Demand steel fabricator recovery plan. Evaluate partial deliveries and overtime erection options.</td>
+        <td>Project Manager</td>
+        <td>03/10</td>
+        <td>Schedule</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>Escalate to structural engineering firm for additional support to clear RFI/submittal backlog.</td>
+        <td>Project Manager</td>
+        <td>03/10</td>
+        <td>Contracts</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>Add concrete/rebar resources to grade beam work to recover -3 days negative float.</td>
+        <td>Superintendent</td>
+        <td>03/10</td>
+        <td>Schedule</td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td>Get engineer decision on 4000 psi concrete footings before more Zone A work proceeds.</td>
+        <td>Superintendent</td>
+        <td>03/10</td>
+        <td>Schedule</td>
+      </tr>
+      <tr>
+        <td>6</td>
+        <td>Issue formal notice to Power Electric for late electrical panel submittal (SUB-107).</td>
+        <td>Contract Admin</td>
+        <td>03/10</td>
+        <td>Contracts</td>
+      </tr>
+      <tr>
+        <td>7</td>
+        <td>Quantify rock excavation cost/schedule impact for Zone B and finalize CO-003.</td>
+        <td>Project Manager</td>
+        <td>03/14</td>
+        <td>Cost</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="footer">
+  Generated by SitRep Generator Plugin v2.1.0 | March 7, 2026<br>
+  Next report due: March 14, 2026
+</div>
+
+</body>
+</html>

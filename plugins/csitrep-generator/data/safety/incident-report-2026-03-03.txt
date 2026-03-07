@@ -1,0 +1,37 @@
+INCIDENT REPORT
+
+Date of Incident: March 3, 2026
+Time: 10:45 AM
+Location: Zone A, Foundation area
+Project: Riverside Office Complex
+
+TYPE: Recordable Injury (First Aid + Medical Treatment)
+
+DESCRIPTION:
+Worker (J. Hernandez, Rebar crew) sustained a laceration to left forearm
+when rebar tie wire snapped during placement. Worker was wearing required
+PPE including gloves, but the wire end penetrated through the glove material.
+
+IMMEDIATE ACTIONS:
+1. First aid administered on site
+2. Worker transported to Riverside Medical Center
+3. 6 stitches received, worker returned to site on modified duty
+4. Area inspected and secured
+
+ROOT CAUSE: Defective tie wire batch (higher carbon content than specified)
+CONTRIBUTING FACTORS:
+- Wire supplier changed manufacturers without notice
+- Pre-use inspection of wire not performed per SOP
+
+CORRECTIVE ACTIONS:
+1. [OPEN] Replace all wire from batch #TW-2026-0445 - Due: March 7
+2. [OPEN] Reinstate pre-use material inspection per SOP 4.2 - Due: March 6
+3. [OPEN] Issue toolbox talk on wire handling hazards - Due: March 7
+4. [COMPLETE] Notify wire supplier and request documentation
+
+OSHA RECORDABLE: Yes (Medical treatment beyond first aid)
+LOST TIME: No (Modified duty assigned)
+DAYS SINCE PREVIOUS RECORDABLE: 47
+
+Prepared by: Sarah Kim, Safety Manager
+Reviewed by: Mike Torres, Superintendent
