@@ -33,6 +33,7 @@ Extract from the markdown report:
 - On-track items (count)
 - Each domain's overall status, key metrics (as key-value pairs), and top findings
 - Recommended actions (action, owner, due date, domain)
+- Period-over-period trends (if available): status trajectory, metric movements, resolved/persistent/new issues
 - Risk summary (if available)
 - Action items status (if available)
 

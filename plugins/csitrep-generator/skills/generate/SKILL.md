@@ -31,7 +31,43 @@ Then stop.
 
 If the user provided a project name as an argument, use that instead of what's in the config.
 
-## Step 2: Validate Data Folders
+## Step 2: Preprocess Documents
+
+Run the preprocessing script to convert any Office files the team has dropped in:
+```bash
+bash ./scripts/preprocess.sh
+```
+
+This auto-converts:
+- `.xlsx` / `.xls` -> `.csv` (one CSV per sheet for multi-sheet workbooks)
+- `.docx` / `.doc` -> `.txt` (extracts text and tables)
+- `.pptx` -> `.txt` (extracts slide text and tables)
+- `.pdf` -> no conversion needed (Claude reads PDFs natively)
+
+If the script reports missing dependencies, show the user the install command:
+```
+brew install pandoc
+pip3 install pandas openpyxl python-docx python-pptx xlrd
+```
+
+Continue even if some conversions fail - agents can still read the files that did convert plus any native formats (CSV, TXT, PDF).
+
+## Step 3: Load Previous Report (for Trend Context)
+
+Use Glob to find all `*-sitrep.md` files in `./output/csitrep/`. Sort by date (from filename).
+
+If at least one previous report exists:
+- Read the most recent report
+- Extract a structured summary to pass to agents:
+  - Each domain's previous status (CRITICAL / WATCH / ON TRACK)
+  - Each domain's key metrics from last period
+  - Previous critical issues list
+  - Previous watch items list
+- Store this as `previous_context` for use in Step 5
+
+If no previous reports exist, set `previous_context` to null. This is fine for the first report.
+
+## Step 4: Validate Data Folders
 
 Read the `domains` array from the config. For each domain, check its `folder` for documents.
 
@@ -39,23 +75,41 @@ For each folder:
 - If it contains files (excluding README.md), note the count and types
 - If it's empty, warn the user and ask if they want to proceed without that section
 
-## Step 3: Dispatch Specialist Agents IN PARALLEL
+## Step 5: Dispatch Specialist Agents IN PARALLEL
 
 Read the `domains` array. Spawn ALL agents simultaneously using the Agent tool.
 
 For each domain in the config:
 - Agent name: use the `agent` field from the domain config
-- Prompt: "Analyze all documents in ./[folder] and produce [domain name] status findings. Flag items as CRITICAL, WATCH, or ON TRACK."
+- Prompt: Include both the current analysis request AND the previous period context
 
-Example: if config says:
-```json
-{"name": "Schedule", "agent": "construction-schedule", "folder": "data/schedule/"}
+**If previous_context exists, use this enhanced prompt:**
 ```
-Then dispatch: `@construction-schedule` with prompt about `./data/schedule/`
+Analyze all documents in ./[folder] and produce [domain name] status findings.
+Flag items as CRITICAL, WATCH, or ON TRACK.
+
+PREVIOUS PERIOD CONTEXT (for comparison):
+- Previous status: [CRITICAL/WATCH/ON TRACK]
+- Previous key metrics: [list from last report]
+- Previous issues: [relevant issues from last report for this domain]
+
+In your analysis, explicitly note:
+1. What changed since last period (better, worse, same)
+2. Any metrics that moved and in which direction
+3. Issues that are NEW this period vs CARRIED OVER from last period
+4. Issues from last period that are now RESOLVED
+```
+
+**If no previous_context (first report):**
+```
+Analyze all documents in ./[folder] and produce [domain name] status findings.
+Flag items as CRITICAL, WATCH, or ON TRACK.
+This is the first report - establish baselines for all metrics.
+```
 
 Dispatch ALL domains in parallel. Do NOT run them one at a time.
 
-## Step 4: Synthesize Findings
+## Step 6: Synthesize Findings
 
 Once all agents return, build the SitRep using the template in `reference.md`.
 
@@ -78,7 +132,31 @@ For the RECOMMENDED ACTIONS section:
 - Limit to 5-7 actions maximum
 - Each action should be tied to a specific finding
 
-## Step 5: Present Draft for Review
+### Trend Section (if previous report exists)
+
+After the RECOMMENDED ACTIONS section and before the RISK SUMMARY, include a PERIOD-OVER-PERIOD TRENDS section. Build it by comparing the current agent findings against the `previous_context`:
+
+**Status Trajectory:** For each domain, show:
+`[Domain]: [Previous Status] -> [Current Status]` with IMPROVING / DECLINING / STABLE
+
+**Key Metric Movements:** List 5-8 most important quantitative metrics with previous vs current values and direction. Examples:
+- Schedule % Complete: 14.5% -> 22.3% (IMPROVING)
+- Contingency: $350K (2.7%) -> $280K (2.2%) (DECLINING)
+- Open RFIs: 6 -> 4 (IMPROVING)
+
+**Resolved Issues:** Critical/Watch items from last period that no longer appear or have been addressed.
+
+**Persistent Issues:** Items appearing in both this report and the previous report. Flag how many consecutive periods they have appeared. Items persisting 3+ periods should be called out strongly.
+
+**New This Period:** Issues appearing for the first time.
+
+For the first report (no previous context), replace the trend section with:
+```
+PERIOD-OVER-PERIOD TRENDS
+First report - baselines established. Trends will appear in subsequent reports.
+```
+
+## Step 7: Present Draft for Review
 
 **Interactive mode** (user is at the CLI):
 Display the complete SitRep to the user. Ask:
@@ -88,14 +166,14 @@ Wait for user confirmation or edits.
 **Auto mode** (triggered by scheduler or Slack, or prompt includes "auto-save"):
 Skip the review step. Proceed directly to saving.
 
-## Step 6: Save the Report
+## Step 8: Save the Report
 
 Save the final SitRep to `./output/csitrep/` with the filename format:
 `YYYY-MM-DD-sitrep.md`
 
 Use today's date.
 
-## Step 7: Auto-Deliver to Slack
+## Step 9: Auto-Deliver to Slack
 
 Check project-info.json for `slack_delivery` config:
 
@@ -141,7 +219,7 @@ Ask the user if they'd like to:
 **If triggered from a Slack mention:**
 Automatically post the report back to the same channel/thread, regardless of config.
 
-## Step 8: Offer Next Steps
+## Step 10: Offer Next Steps
 
 After delivery, briefly mention:
 - "/csitrep-generator:dashboard-ui" for visual HTML dashboard

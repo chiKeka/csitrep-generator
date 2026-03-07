@@ -89,6 +89,40 @@ RECOMMENDED ACTIONS
 | ... | | | | |
 
 ============================================================
+PERIOD-OVER-PERIOD TRENDS
+============================================================
+
+[If this is the first report:]
+First report - baselines established. Trends will appear
+in subsequent reports.
+
+[If previous report exists:]
+
+Status Trajectory:
+- [Domain 1]: [Previous] -> [Current] (IMPROVING/DECLINING/STABLE)
+- [Domain 2]: [Previous] -> [Current] (IMPROVING/DECLINING/STABLE)
+- [Domain 3]: [Previous] -> [Current] (IMPROVING/DECLINING/STABLE)
+- [Domain 4]: [Previous] -> [Current] (IMPROVING/DECLINING/STABLE)
+- [Domain 5]: [Previous] -> [Current] (IMPROVING/DECLINING/STABLE)
+
+Key Metric Movements:
+| Metric | Previous | Current | Direction |
+|--------|----------|---------|-----------|
+| [Metric 1] | [value] | [value] | IMPROVING/DECLINING |
+| [Metric 2] | [value] | [value] | IMPROVING/DECLINING |
+
+Resolved Since Last Report:
+- [Issues from last period that are now closed]
+
+Persistent Issues:
+- [Issue] - [X] consecutive periods - First flagged: [date]
+
+New This Period:
+- [Issues appearing for the first time]
+
+Overall Trajectory: [IMPROVING / STABLE / DECLINING]
+
+============================================================
 RISK SUMMARY
 ============================================================
 
