@@ -1,0 +1,8 @@
+Submittal No,Spec Section,Description,Subcontractor,Date Submitted,Date Due,Status,Revision,Reviewer,Notes
+SUB-101,03300,Concrete Mix Design - Foundations,ABC Concrete,2026-02-01,2026-02-08,Approved,0,Structural Eng,
+SUB-102,03200,Rebar Shop Drawings - Foundations,Steel Rebar Inc,2026-02-05,2026-02-12,Approved,1,Structural Eng,Rev 1 approved after corrections
+SUB-103,05100,Structural Steel Shop Drawings,Ironworks LLC,2026-02-10,2026-02-24,Revise & Resubmit,0,Structural Eng,Connection details need revision
+SUB-104,05100,Steel Material Certifications,Ironworks LLC,2026-02-15,2026-02-22,Overdue,0,Structural Eng,Awaiting mill certs from supplier
+SUB-105,07200,Waterproofing Membrane,Waterproof Co,2026-02-20,2026-03-06,Under Review,0,Architect,
+SUB-106,23000,HVAC Equipment Schedules,Comfort Mechanical,2026-03-01,2026-03-15,Under Review,0,MEP Engineer,Long-lead equipment
+SUB-107,26000,Electrical Distribution Panels,Power Electric,Not Submitted,,Late,0,MEP Engineer,Was due Feb 28

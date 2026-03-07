@@ -1,0 +1,40 @@
+{
+  "project_name": "Riverside Office Complex",
+  "project_type": "construction",
+  "reporting_period": "weekly",
+  "project_number": "ROC-2026-001",
+  "owner": "Riverside Development Corp",
+  "lead": "Mike Torres",
+  "start_date": "2026-01-15",
+  "planned_completion": "2027-06-30",
+  "budget": 12800000,
+  "currency": "USD",
+  "domains": [
+    {
+      "name": "Schedule",
+      "agent": "construction-schedule",
+      "folder": "data/schedule/"
+    },
+    {
+      "name": "Cost & Budget",
+      "agent": "construction-cost",
+      "folder": "data/cost/"
+    },
+    {
+      "name": "Safety",
+      "agent": "construction-safety",
+      "folder": "data/safety/"
+    },
+    {
+      "name": "Contracts & Admin",
+      "agent": "construction-contracts",
+      "folder": "data/contracts/"
+    },
+    {
+      "name": "Site Conditions",
+      "agent": "construction-site",
+      "folder": "data/site/"
+    }
+  ],
+  "notes": "Sample project for demonstrating the SitRep Generator plugin."
+}

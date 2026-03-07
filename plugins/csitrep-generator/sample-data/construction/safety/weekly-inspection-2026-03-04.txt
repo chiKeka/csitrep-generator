@@ -1,0 +1,54 @@
+WEEKLY SAFETY INSPECTION REPORT
+
+Date: March 4, 2026
+Inspector: Sarah Kim, CSP
+Project: Riverside Office Complex
+Weather: Clear, 55F
+
+INSPECTION AREAS: Zones A, B, C, Staging Area, Office Trailers
+
+FINDINGS:
+
+1. [HIGH] Excavation Zone B - Trench >5ft without shoring in NW corner
+   Violation: OSHA 1926.652(a)
+   Action Required: Install shoring immediately
+   Responsible: Earthwork Foreman
+   Due: March 5, 2026 (IMMEDIATE)
+   Status: OPEN
+
+2. [HIGH] Zone A Foundation - Missing barricades around open footings
+   Violation: OSHA 1926.502(b)
+   Action Required: Install barricades and warning signs
+   Responsible: Concrete Foreman
+   Due: March 5, 2026 (IMMEDIATE)
+   Status: OPEN
+
+3. [MEDIUM] Staging Area - Compressed gas cylinders not properly secured
+   Violation: OSHA 1926.350(a)(9)
+   Action Required: Chain cylinders to fixed object
+   Responsible: Welding Crew Lead
+   Due: March 6, 2026
+   Status: OPEN
+
+4. [LOW] Office Trailers - Fire extinguisher inspection tag expired (Feb 2026)
+   Action Required: Schedule re-inspection
+   Responsible: Site Admin
+   Due: March 10, 2026
+   Status: OPEN
+
+POSITIVE OBSERVATIONS:
+- Excellent housekeeping in Zone A work area
+- All workers observed wearing required PPE
+- Toolbox talks conducted daily this week (5/5)
+- New fall protection anchor points properly installed
+
+SAFETY METRICS THIS WEEK:
+- Toolbox Talks Completed: 5 of 5 (100%)
+- Safety Observations Submitted: 12
+- Near Misses Reported: 2
+- First Aid Cases: 1 (wire laceration - see incident report)
+- Training Completion Rate: 96%
+
+OVERALL ASSESSMENT: WATCH - Two high-priority OSHA items need immediate closure
+
+Signed: Sarah Kim, CSP

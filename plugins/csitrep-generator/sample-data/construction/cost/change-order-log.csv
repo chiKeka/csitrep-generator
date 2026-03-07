@@ -1,0 +1,6 @@
+CO Number,Date,Description,Submitted By,Status,Amount,Impact (Days),Category
+CO-001,2026-02-10,Additional soil stabilization in Zone A,GC,Approved,120000,5,Site Conditions
+CO-002,2026-02-18,Revised MEP routing per owner request,Owner,Approved,35000,0,Design Change
+CO-003,2026-03-01,Rock excavation Zone B - unforeseen condition,GC,Pending,85000,8,Differing Site Conditions
+CO-004,2026-03-03,Upgraded concrete mix for seismic requirements,Engineer,Pending,42000,0,Design Change
+CO-005,2026-03-05,Temporary shoring for adjacent building,GC,Under Review,65000,3,Safety/Protection

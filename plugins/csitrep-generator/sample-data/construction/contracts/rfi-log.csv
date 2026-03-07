@@ -1,0 +1,9 @@
+RFI Number,Date Submitted,Subject,Submitted By,Assigned To,Status,Date Due,Date Responded,Days Open,Priority,Impact
+RFI-042,2026-02-10,Foundation waterproofing detail at elevator pit,GC,Structural Engineer,Closed,2026-02-17,2026-02-15,5,Medium,None
+RFI-043,2026-02-14,Confirm rebar spacing at grade beam GB-12,GC,Structural Engineer,Closed,2026-02-21,2026-02-20,6,High,None
+RFI-044,2026-02-18,MEP penetration locations through foundation wall,MEP Sub,Structural Engineer,Overdue,2026-02-25,,15,High,Blocking MEP layout
+RFI-045,2026-02-22,Soil bearing capacity discrepancy - Zone B,GC,Geotechnical Engineer,Overdue,2026-03-01,,13,Critical,May require redesign
+RFI-046,2026-02-28,Steel connection detail at moment frame MF-3,Steel Sub,Structural Engineer,Open,2026-03-07,,7,High,Blocking fabrication
+RFI-047,2026-03-01,Exterior cladding attachment to steel - thermal break detail,GC,Architect,Open,2026-03-08,,6,Medium,Long-lead procurement
+RFI-048,2026-03-03,Concrete mix design approval for elevated slabs,GC,Structural Engineer,Open,2026-03-10,,4,Medium,None yet
+RFI-049,2026-03-05,Temporary shoring design for adjacent property protection,GC,Structural Engineer,Open,2026-03-12,,2,High,Safety requirement
