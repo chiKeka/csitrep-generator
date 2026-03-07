@@ -1,5 +1,5 @@
 ---
-name: safety-analyst
+name: construction-safety
 description: Analyzes construction safety documents for incidents, compliance gaps, and hazard patterns. Use when reviewing safety data in data/safety/.
 tools: Read, Glob, Grep, Bash
 model: sonnet

@@ -1,5 +1,5 @@
 ---
-name: schedule-analyst
+name: construction-schedule
 description: Analyzes construction schedule documents for delays, critical path issues, and milestone risks. Use when reviewing schedule data in data/schedule/.
 tools: Read, Glob, Grep, Bash
 model: sonnet

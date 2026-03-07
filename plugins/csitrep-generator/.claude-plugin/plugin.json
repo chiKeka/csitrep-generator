@@ -1,11 +1,11 @@
 {
   "name": "csitrep-generator",
-  "version": "1.0.0",
-  "description": "Multi-agent Construction Situation Report (CSitRep) generator. Dispatches 5 specialist agents to analyze project documents and synthesizes findings into a structured report.",
+  "version": "2.0.0",
+  "description": "Multi-agent Situation Report (SitRep) generator for any project type. Supports construction, software, development programs, product/manufacturing, consulting, and custom projects. Dispatches specialist agents to analyze documents and synthesizes findings into actionable reports.",
   "author": {
     "name": "Bruno Chikeka"
   },
   "repository": "https://github.com/chiKeka/csitrep-generator",
   "license": "MIT",
-  "keywords": ["construction", "reporting", "project-management", "csitrep", "multi-agent"]
+  "keywords": ["project-management", "reporting", "sitrep", "multi-agent", "construction", "software", "consulting"]
 }

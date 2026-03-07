@@ -1,5 +1,5 @@
 ---
-name: site-analyst
+name: construction-site
 description: Analyzes construction site condition documents for workforce, access, materials, and field issues. Use when reviewing site data in data/site/.
 tools: Read, Glob, Grep, Bash
 model: sonnet

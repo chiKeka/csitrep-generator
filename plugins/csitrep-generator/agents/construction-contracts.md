@@ -1,5 +1,5 @@
 ---
-name: contract-analyst
+name: construction-contracts
 description: Analyzes construction contract documents for RFI status, submittal tracking, and contractual risks. Use when reviewing contract data in data/contracts/.
 tools: Read, Glob, Grep, Bash
 model: sonnet

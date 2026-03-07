@@ -1,5 +1,5 @@
 ---
-name: cost-analyst
+name: construction-cost
 description: Analyzes construction cost and budget documents for variances, burn rate, and change order exposure. Use when reviewing cost data in data/cost/.
 tools: Read, Glob, Grep, Bash
 model: sonnet

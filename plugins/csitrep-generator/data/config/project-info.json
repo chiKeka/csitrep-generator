@@ -1,12 +1,14 @@
 {
-  "project_name": "Sample Construction Project",
+  "project_name": "",
+  "project_type": "",
   "reporting_period": "weekly",
-  "project_number": "PRJ-001",
-  "owner": "Owner Name",
-  "contractor": "General Contractor Name",
-  "project_manager": "PM Name",
-  "start_date": "2026-01-15",
-  "planned_completion": "2027-06-30",
-  "contract_value": 12800000,
-  "notes": "Update this file with your actual project information."
+  "project_number": "",
+  "owner": "",
+  "lead": "",
+  "start_date": "",
+  "planned_completion": "",
+  "budget": 0,
+  "currency": "USD",
+  "domains": [],
+  "notes": "Run /csitrep-generator:setup to configure this project."
 }
