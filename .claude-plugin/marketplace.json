@@ -9,7 +9,10 @@
   "plugins": [
     {
       "name": "csitrep-generator",
-      "source": ".",
+      "source": {
+        "type": "github",
+        "repo": "chiKeka/csitrep-generator"
+      },
       "description": "Multi-agent Construction Situation Report (CSitRep) generator. Dispatches 5 specialist agents to analyze project documents and synthesizes findings into a structured report.",
       "version": "1.0.0",
       "author": {
