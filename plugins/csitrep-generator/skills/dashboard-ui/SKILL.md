@@ -415,12 +415,169 @@ Create an HTML file at `./output/csitrep/[date]-dashboard.html` using this struc
   </div>
 </div>
 
+<!-- TREND SECTION (if available from report) -->
+[IF PERIOD-OVER-PERIOD TRENDS section exists in the report:]
+<div class="full-width">
+  <h2>Period-Over-Period Trends</h2>
+  <div class="two-col">
+    <div>
+      <h3 class="sans" style="font-size: 14px; margin-bottom: 12px;">Status Trajectory</h3>
+      <table class="issues-table">
+        <thead><tr><th>Domain</th><th>Previous</th><th>Current</th><th>Direction</th></tr></thead>
+        <tbody>
+          [FOR EACH DOMAIN:]
+          <tr>
+            <td>[DOMAIN]</td>
+            <td><span class="status-tag [prev_class]">[PREV_STATUS]</span></td>
+            <td><span class="status-tag [curr_class]">[CURR_STATUS]</span></td>
+            <td style="font-weight: 600; color: var(--[green if improving, red if declining, mid-gray if stable]);">[IMPROVING/DECLINING/STABLE]</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <h3 class="sans" style="font-size: 14px; margin-bottom: 12px;">Key Metric Movements</h3>
+      <table class="issues-table">
+        <thead><tr><th>Metric</th><th>Previous</th><th>Current</th><th>Direction</th></tr></thead>
+        <tbody>
+          [FOR EACH METRIC:]
+          <tr>
+            <td>[METRIC]</td>
+            <td>[PREV_VALUE]</td>
+            <td>[CURR_VALUE]</td>
+            <td style="color: var(--[color]);">[DIRECTION]</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
 <!-- FOOTER -->
 <div class="footer">
   <span>SitRep Generator Plugin v2.1.0</span>
   <span>Prepared: [DATE] | Next report: [NEXT_DATE]</span>
   <span>Project: [PROJECT_NUMBER]</span>
 </div>
+
+<!-- INTERACTIVE FEATURES (self-contained JavaScript) -->
+<script>
+(function() {
+  // Domain filter - click a domain card to highlight related items across all tables
+  document.querySelectorAll('.domain-card').forEach(function(card) {
+    card.style.cursor = 'pointer';
+    card.addEventListener('click', function() {
+      var domain = card.querySelector('h3').textContent.trim();
+      var isActive = card.classList.contains('filter-active');
+
+      // Clear all filters
+      document.querySelectorAll('.filter-active').forEach(function(el) {
+        el.classList.remove('filter-active');
+      });
+      document.querySelectorAll('.filter-dimmed').forEach(function(el) {
+        el.classList.remove('filter-dimmed');
+      });
+
+      if (!isActive) {
+        card.classList.add('filter-active');
+        // Dim non-matching rows in all tables
+        document.querySelectorAll('.issues-table tbody tr, .actions-table tbody tr').forEach(function(row) {
+          var cells = row.querySelectorAll('td');
+          var match = false;
+          cells.forEach(function(cell) {
+            if (cell.textContent.trim() === domain ||
+                cell.textContent.trim().indexOf(domain.split(' ')[0]) === 0) {
+              match = true;
+            }
+          });
+          if (!match) row.classList.add('filter-dimmed');
+        });
+        // Dim other domain cards
+        document.querySelectorAll('.domain-card').forEach(function(other) {
+          if (other !== card) other.classList.add('filter-dimmed');
+        });
+      }
+    });
+  });
+
+  // Collapsible sections - click h2 headers to collapse/expand
+  document.querySelectorAll('h2').forEach(function(h2) {
+    h2.style.cursor = 'pointer';
+    h2.style.userSelect = 'none';
+    var indicator = document.createElement('span');
+    indicator.textContent = ' ';
+    indicator.style.cssText = 'float:right;font-size:10px;color:#999;';
+    indicator.textContent = '[ - ]';
+    h2.appendChild(indicator);
+
+    h2.addEventListener('click', function() {
+      var next = h2.nextElementSibling;
+      while (next && next.tagName !== 'H2') {
+        if (next.style.display === 'none') {
+          next.style.display = '';
+          indicator.textContent = '[ - ]';
+        } else {
+          next.style.display = 'none';
+          indicator.textContent = '[ + ]';
+        }
+        next = next.nextElementSibling;
+      }
+    });
+  });
+
+  // Search/filter bar
+  var searchBar = document.createElement('div');
+  searchBar.style.cssText = 'position:sticky;top:0;background:white;padding:12px 0;z-index:100;border-bottom:1px solid #e0e0e0;margin-bottom:16px;display:flex;gap:12px;align-items:center;';
+  searchBar.innerHTML = '<input type="text" id="dashSearch" placeholder="Search findings, metrics, actions..." style="flex:1;padding:8px 12px;border:1px solid #e0e0e0;border-radius:2px;font-family:-apple-system,sans-serif;font-size:13px;outline:none;">' +
+    '<select id="statusFilter" style="padding:8px 12px;border:1px solid #e0e0e0;border-radius:2px;font-family:-apple-system,sans-serif;font-size:13px;background:white;">' +
+    '<option value="">All Status</option><option value="critical">Critical Only</option><option value="watch">Watch Only</option><option value="ontrack">On Track Only</option></select>' +
+    '<button id="printBtn" style="padding:8px 16px;background:#1a1a1a;color:white;border:none;border-radius:2px;font-family:-apple-system,sans-serif;font-size:12px;cursor:pointer;text-transform:uppercase;letter-spacing:0.5px;">Print / PDF</button>';
+
+  var header = document.querySelector('.header');
+  if (header) header.parentNode.insertBefore(searchBar, header.nextSibling);
+
+  // Search functionality
+  var searchInput = document.getElementById('dashSearch');
+  if (searchInput) {
+    searchInput.addEventListener('input', function() {
+      var q = this.value.toLowerCase();
+      document.querySelectorAll('.issues-table tbody tr, .actions-table tbody tr').forEach(function(row) {
+        if (q === '') { row.style.display = ''; return; }
+        row.style.display = row.textContent.toLowerCase().indexOf(q) >= 0 ? '' : 'none';
+      });
+      document.querySelectorAll('.domain-card').forEach(function(card) {
+        if (q === '') { card.style.display = ''; return; }
+        card.style.display = card.textContent.toLowerCase().indexOf(q) >= 0 ? '' : 'none';
+      });
+    });
+  }
+
+  // Status filter
+  var statusFilter = document.getElementById('statusFilter');
+  if (statusFilter) {
+    statusFilter.addEventListener('change', function() {
+      var v = this.value;
+      document.querySelectorAll('.domain-card').forEach(function(card) {
+        if (v === '') { card.style.display = ''; return; }
+        var tag = card.querySelector('.status-tag');
+        card.style.display = (tag && tag.classList.contains(v)) ? '' : 'none';
+      });
+    });
+  }
+
+  // Print button
+  var printBtn = document.getElementById('printBtn');
+  if (printBtn) {
+    printBtn.addEventListener('click', function() { window.print(); });
+  }
+})();
+</script>
+
+<style>
+  .filter-active { outline: 2px solid var(--blue); outline-offset: -2px; }
+  .filter-dimmed { opacity: 0.3; }
+  @media print { #dashSearch, #statusFilter, #printBtn, [id$="Search"] { display: none !important; } .filter-dimmed { opacity: 1; } div[style*="sticky"] { display: none !important; } }
+</style>
 
 </body>
 </html>
@@ -507,3 +664,8 @@ If yes, attempt to convert using one of these methods:
 - Status colors: red (#c62828) for critical, amber (#e65100) for watch, green (#2e7d32) for on-track, blue (#1565c0) for neutral data
 - Tables must have uppercase letter-spaced headers on light gray background
 - Use bold/color inline styles to highlight concerning values in domain metric tables
+- Include the interactive JavaScript block at the end of the HTML (search, filter, collapsible sections, domain click-to-highlight)
+- The search bar and filters are hidden in print mode via @media print
+- Include the trend section if the report has PERIOD-OVER-PERIOD TRENDS data
+- All JavaScript must be self-contained, no external dependencies
+- Follow SECURITY.md rules: never expose agent names, internal paths, or processing details in the HTML output

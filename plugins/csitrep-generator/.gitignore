@@ -1,0 +1,44 @@
+# Project data (user-specific, not shared in repo)
+data/schedule/
+data/cost/
+data/safety/
+data/contracts/
+data/site/
+data/sprint/
+data/budget/
+data/quality/
+data/blockers/
+data/infra/
+data/workplan/
+data/mne/
+data/stakeholders/
+data/field/
+data/timeline/
+data/supply/
+data/operations/
+data/deliverables/
+data/client/
+data/resources/
+data/risks/
+data/archive/
+
+# Config contains project-specific sensitive data
+data/config/project-info.json
+data/config/feedback-log.json
+data/config/action-log.json
+data/config/risk-register.json
+
+# Generated output
+output/
+
+# System files
+.DS_Store
+*.pyc
+__pycache__/
+/tmp/
+
+# Environment and credentials
+.env
+*.key
+*.pem
+credentials.*
