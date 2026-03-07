@@ -5,9 +5,7 @@
   "author": {
     "name": "PM Agent Team"
   },
-  "keywords": ["construction", "reporting", "project-management", "csitrep", "multi-agent"],
-  "skills": "./skills/",
-  "agents": "./agents/",
-  "hooks": "./hooks/hooks.json",
-  "mcpServers": "./.mcp.json"
+  "repository": "https://github.com/chiKeka/csitrep-generator",
+  "license": "MIT",
+  "keywords": ["construction", "reporting", "project-management", "csitrep", "multi-agent"]
 }
