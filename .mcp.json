@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "slack": {
+      "type": "http",
+      "url": "https://mcp.slack.com/mcp",
+      "oauth": {
+        "callbackPort": 3118
+      }
+    }
+  }
+}

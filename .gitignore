@@ -1,0 +1,15 @@
+# Keep data folders in repo but ignore actual project documents
+data/schedule/*
+data/cost/*
+data/safety/*
+data/contracts/*
+data/site/*
+!data/*/README.md
+!data/config/
+
+# Ignore generated reports
+output/csitrep/*
+!output/csitrep/README.md
+
+# OS files
+.DS_Store
