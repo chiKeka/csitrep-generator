@@ -80,10 +80,13 @@ For the RECOMMENDED ACTIONS section:
 
 ## Step 5: Present Draft for Review
 
+**Interactive mode** (user is at the CLI):
 Display the complete SitRep to the user. Ask:
 "Here's the draft SitRep. Would you like to make any changes before I save it?"
-
 Wait for user confirmation or edits.
+
+**Auto mode** (triggered by scheduler or Slack, or prompt includes "auto-save"):
+Skip the review step. Proceed directly to saving.
 
 ## Step 6: Save the Report
 
@@ -92,23 +95,57 @@ Save the final SitRep to `./output/csitrep/` with the filename format:
 
 Use today's date.
 
-After saving, ask the user if they'd like to:
-- Send it to a Slack channel (if Slack MCP is available)
-- Email it to stakeholders (if Gmail MCP is available)
+## Step 7: Auto-Deliver to Slack
+
+Check project-info.json for `slack_delivery` config:
+
+```json
+{
+  "slack_delivery": {
+    "enabled": true,
+    "channel": "#project-updates",
+    "mention_on_critical": ["@project-lead"],
+    "include_dashboard": true,
+    "auto_post": true
+  }
+}
+```
+
+**If `slack_delivery.enabled` is true and `auto_post` is true:**
+Automatically deliver without asking. Do all of the following:
+
+1. **Main message** to the configured channel:
+   - Project name and date as header
+   - KPI summary line: "[X] Critical | [X] Watch | [X] On Track"
+   - If critical issues exist and `mention_on_critical` has entries, @mention those users
+   - Executive summary (condensed to 2-3 sentences max)
+   - List critical issues as numbered items (domain + one-line description)
+   - End with: "Full report in thread below."
+
+2. **Thread reply 1**: Full detailed report (formatted for Slack mrkdwn, not raw markdown)
+   - Use *bold* for section headers
+   - Use bullet points for findings
+   - Keep tables as aligned text (Slack doesn't render markdown tables)
+
+3. **Thread reply 2** (if `include_dashboard` is true):
+   - Generate the HTML dashboard (same as /csitrep-generator:dashboard-ui)
+   - Post a message: "Visual dashboard saved. Open locally: ./output/csitrep/[date]-dashboard.html"
+
+4. Confirm delivery in the CLI output.
+
+**If `slack_delivery.enabled` is false or not configured:**
+Ask the user if they'd like to:
+- Send it to a Slack channel
 - Just keep the local file
 
-## Step 7: Slack Delivery (if requested or if triggered from Slack)
+**If triggered from a Slack mention:**
+Automatically post the report back to the same channel/thread, regardless of config.
 
-If the user asks to send to Slack, or if this session was initiated from a Slack mention:
+## Step 8: Offer Next Steps
 
-1. Ask which Slack channel to post to
-2. Format the report for Slack readability:
-   - Post the EXECUTIVE SUMMARY and CRITICAL ISSUES as the main message
-   - Post the full detailed report as a thread reply
-3. Use the Slack MCP tools to send the messages
-4. Confirm to the user that the report was posted
-
-If the session was triggered by a Slack message, automatically post the report back to the same channel/thread.
+After delivery, briefly mention:
+- "/csitrep-generator:dashboard-ui" for visual HTML dashboard
+- "/csitrep-generator:schedule" to automate this on a recurring basis (if not already scheduled)
 
 ## Important Rules
 
@@ -119,3 +156,5 @@ If the session was triggered by a Slack message, automatically post the report b
 - Keep the report factual and concise - no filler language
 - When posting to Slack, never post raw markdown - format for Slack's mrkdwn syntax
 - The domain sections in the report should match the project's configured domains, not hardcoded construction categories
+- Slack main message must be scannable in under 30 seconds - think executive who checks Slack on their phone
+- Always generate the dashboard HTML alongside the report when Slack delivery is on

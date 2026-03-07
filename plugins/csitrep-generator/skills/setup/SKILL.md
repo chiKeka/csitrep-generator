@@ -168,7 +168,45 @@ Write the complete config to ./data/config/project-info.json:
 }
 ```
 
-## Step 6: Confirm Setup
+## Step 6: Slack Team Delivery (Optional)
+
+Ask the user:
+```
+Would you like reports automatically delivered to Slack?
+This lets your whole team receive reports without needing Claude Code.
+
+1. Yes - configure Slack delivery
+2. No - I'll use reports locally only
+```
+
+If yes:
+1. Ask which Slack channel (e.g., `#project-updates`, `#riverside-sitrep`)
+2. Ask if they want the HTML dashboard attached as a link or just the text summary
+3. Ask who should be @mentioned when critical issues are found (e.g., `@mike`, `@safety-team`)
+
+Save the Slack config to project-info.json:
+```json
+{
+  "slack_delivery": {
+    "enabled": true,
+    "channel": "#project-updates",
+    "mention_on_critical": ["@project-lead"],
+    "include_dashboard": true,
+    "auto_post": true
+  }
+}
+```
+
+If no, save:
+```json
+{
+  "slack_delivery": {
+    "enabled": false
+  }
+}
+```
+
+## Step 7: Confirm Setup
 
 Show the user a summary:
 
@@ -188,8 +226,15 @@ Project configured:
   4. [Domain] → data/[folder]/
   5. [Domain] → data/[folder]/
 
-Drop your documents into the data folders above, then run:
-/csitrep-generator:generate
+  Slack:    [#channel or "Not configured"]
+
+Next steps:
+  1. Drop your documents into the data folders above
+  2. Run /csitrep-generator:generate to create your first report
+  3. Run /csitrep-generator:schedule to set up auto-delivery
+
+Your team can receive reports in Slack without installing anything.
+Only you (the admin) need Claude Code.
 ```
 
 ## Rules
@@ -199,3 +244,4 @@ Drop your documents into the data folders above, then run:
 - For custom projects, generate the agent .md files and save them in the agents/ directory
 - Keep domain names short and clear
 - Always use lowercase with hyphens for folder names and agent names
+- The Slack delivery config is what enables "configure once, team consumes" workflow

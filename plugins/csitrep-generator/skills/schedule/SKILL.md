@@ -85,15 +85,32 @@ Verify installation:
 crontab -l | grep "csitrep-generator"
 ```
 
-## Step 6: Optional Slack Auto-Delivery
+## Step 6: Slack Delivery
 
-Ask the user:
-"Would you like reports automatically posted to a Slack channel?"
+Check if `slack_delivery` is already configured in project-info.json.
 
-If yes, modify the cron command to include Slack delivery:
+**If already configured:** Show the existing config and ask if they want to change it.
+
+**If not configured:** Ask:
 ```
-... && [CLAUDE_PATH] -p "Run /csitrep-generator:generate, save the report, and send it to Slack channel #[channel-name]" ...
+Would you like reports automatically posted to a Slack channel?
+This is the recommended way for your team to receive reports.
+
+1. Yes - my team gets reports via Slack (recommended)
+2. No - local files only
 ```
+
+If yes:
+1. Ask which Slack channel (e.g., `#project-updates`)
+2. Ask who to @mention on critical issues (e.g., `@mike @safety-team`)
+3. Save to project-info.json under `slack_delivery`
+
+The cron command uses auto-save mode, which triggers the auto-delivery in the generate skill:
+```
+... && [CLAUDE_PATH] -p "Run /csitrep-generator:generate and auto-save the report." --output-format text ...
+```
+
+Since `slack_delivery.auto_post` is true in the config, the generate skill handles Slack delivery automatically. No need for a separate Slack command in cron.
 
 ## Step 7: Save Schedule Config
 
@@ -103,7 +120,6 @@ Update `./data/config/project-info.json` with schedule info:
   "auto_schedule": {
     "frequency": "weekly",
     "cron": "0 16 * * 5",
-    "slack_channel": "#project-updates",
     "enabled": true,
     "created": "2026-03-07"
   }
@@ -118,8 +134,17 @@ Auto-schedule configured:
   Frequency:     [Weekly / Friday at 4:00 PM]
   Next Run:      [calculated next occurrence]
   Output:        ./output/csitrep/ (auto-saved)
-  Slack:         [#channel or "Not configured"]
+  Slack:         [#channel] (auto-delivered)
+  Mentions:      [@user1, @user2] on critical issues
+  Dashboard:     HTML generated with each report
   Log:           ./output/csitrep/auto-run.log
+
+How it works:
+  - Cron triggers Claude Code on schedule
+  - 5 specialist agents analyze your latest documents
+  - Report + dashboard are saved locally
+  - Summary + full report posted to Slack automatically
+  - Your team sees the report without installing anything
 
 To check schedule: crontab -l
 To remove: /csitrep-generator:schedule remove
@@ -132,3 +157,5 @@ To remove: /csitrep-generator:schedule remove
 - The cron command must include --output-format text to avoid interactive prompts
 - Warn the user that their machine must be running for cron to fire
 - On macOS, mention that the user may need to grant cron Full Disk Access in System Preferences
+- Recommend Slack delivery as the primary team consumption method
+- Make it clear: only the admin needs Claude Code, the team just reads Slack
