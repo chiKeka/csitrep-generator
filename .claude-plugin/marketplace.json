@@ -1,7 +1,7 @@
 {
   "name": "pm-agent-marketplace",
   "owner": {
-    "name": "PM Agent Team"
+    "name": "Bruno Chikeka"
   },
   "metadata": {
     "description": "Construction project management plugins for Claude Code"
@@ -13,7 +13,7 @@
       "description": "Multi-agent Construction Situation Report (CSitRep) generator. Dispatches 5 specialist agents to analyze project documents and synthesizes findings into a structured report.",
       "version": "1.0.0",
       "author": {
-        "name": "PM Agent Team"
+        "name": "Bruno Chikeka"
       },
       "category": "project-management",
       "keywords": ["construction", "reporting", "csitrep", "multi-agent"]
