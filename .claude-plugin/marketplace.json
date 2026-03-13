@@ -17,6 +17,17 @@
       },
       "category": "project-management",
       "keywords": ["project-management", "reporting", "sitrep", "multi-agent"]
+    },
+    {
+      "name": "mmpm-cognitive-os",
+      "source": {"source": "github", "repo": "chiKeka/mmpm-cos"},
+      "description": "Constitutional multi-agent decision architecture for major programme governance. 16 agents across 4 layers (Chair, Domain, Coupling, Adversarial) grounded in Oxford MMPM doctrine.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Bruno Chikeka"
+      },
+      "category": "programme-management",
+      "keywords": ["programme-management", "governance", "multi-agent", "decision-architecture", "major-programmes", "megaprojects", "oxford-mmpm"]
     }
   ]
 }
