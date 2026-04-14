@@ -1,137 +1,194 @@
-# SitRep Generator
+# CSitRep Generator
 
-A Claude Code plugin that reads your project documents and generates structured Situation Reports (SitReps) using multi-agent AI analysis.
+Multi-agent Situation Report generator for Claude Code. Dispatches 25 specialist AI agents to analyze your project documents and produces actionable status reports with interactive dashboards.
 
-**5 specialist agents** analyze your documents in parallel across 5 project domains, then synthesize findings into a single actionable report with critical issues, watch items, and recommended actions.
-
-## Supported Project Types
-
-| Type | Domains |
-|------|---------|
-| **Construction** | Schedule, Cost, Safety, Contracts, Site Conditions |
-| **Software/IT** | Sprint/Roadmap, Budget, Quality/Testing, Blockers, Infrastructure |
-| **Development Program** | Workplan, Budget/Grants, M&E, Stakeholders, Field Operations |
-| **Product/Manufacturing** | Timeline, Cost/Procurement, Quality, Supply Chain, Production |
-| **Consulting** | Deliverables, Budget/Billing, Client Satisfaction, Resources, Risks |
-| **Custom** | Define your own 5 domains for any industry |
-
-## Install
-
-Add the marketplace:
-```
-/plugin marketplace add chiKeka/csitrep-generator
-```
-
-Install the plugin:
-```
-/plugin install csitrep-generator@pm-agent-marketplace
-```
-
-Restart Claude Code for skills to load.
-
-## Quick Start
-
-### 1. Set up your project
-```
-/csitrep-generator:setup
-```
-Select your project type and enter project details. This creates your data folders and configures the right agents.
-
-### 2. Add documents
-Drop your project documents into the data folders created during setup:
-- PDFs, CSVs, text files, and images are supported natively
-- Excel (.xlsx) and Word (.docx) are auto-converted on session start
-
-### 3. Generate a report
-```
-/csitrep-generator:generate
-```
-5 agents analyze your documents in parallel. You review the draft, then save or send via Slack.
-
-## All Skills
-
-| Command | What It Does |
-|---------|-------------|
-| `/csitrep-generator:setup` | Configure project type, name, budget, timeline, and domains |
-| `/csitrep-generator:generate` | Generate a full Situation Report |
-| `/csitrep-generator:dashboard` | Quick at-a-glance status (no agents, just reads last report) |
-| `/csitrep-generator:track-risks` | View, add, or update project risks |
-| `/csitrep-generator:track-actions` | Track action items from reports |
-| `/csitrep-generator:compare` | Compare reports over time for trend analysis |
-
-## Try It With Sample Data
-
-Sample construction project data is included. To load it:
-
-```bash
-cd ~/.claude/plugins/cache/pm-agent-marketplace/csitrep-generator/2.0.0
-chmod +x sample-data/load-sample.sh
-./sample-data/load-sample.sh construction
-```
-
-Then run `/csitrep-generator:generate` to see a full report.
-
-## What It Reads
-
-| Format | Support |
-|--------|---------|
-| PDF | Native (up to 100 pages) |
-| CSV | Native |
-| Text / Markdown | Native |
-| Images (PNG/JPG) | Native (AI vision for site photos) |
-| JSON / XML / YAML | Native |
-| Excel (.xlsx) | Auto-converted to CSV |
-| Word (.docx) | Auto-converted to text |
-
-## Slack Integration
-
-The plugin can post reports to Slack channels. Set up:
-1. Run `/mcp` and authenticate the Slack server
-2. After generating a report, choose "Send to Slack"
-3. Or use `@Claude` in Slack to trigger report generation directly
-
-## Report Output
-
-Reports are saved to `output/csitrep/` as dated markdown files. Each report includes:
-
-- Executive Summary
-- Critical Issues (needs decision now)
-- Watch Items (trending negative)
-- Detailed status per domain with key metrics
-- Recommended Actions (prioritized, assigned, with deadlines)
-- Risk Summary
-- Open Actions Status
-- Appendix (documents analyzed)
+Supports **6 project types**: Construction, Software/IT, Development Programs, Product/Manufacturing, Consulting, and Custom.
 
 ## How It Works
 
-```
-You: /csitrep-generator:generate
+1. Drop project documents into organized data folders
+2. Run `/csitrep-generator:generate`
+3. Five domain-specialist agents analyze your documents in parallel
+4. The system synthesizes findings into a structured report with critical issues, watch items, and recommended actions
+5. Optionally delivers to Slack and generates an interactive HTML dashboard
 
-Plugin reads project config
-    |
-    ├── Agent 1: Analyzes domain 1 documents ──┐
-    ├── Agent 2: Analyzes domain 2 documents ──┤
-    ├── Agent 3: Analyzes domain 3 documents ──┼── All run in parallel
-    ├── Agent 4: Analyzes domain 4 documents ──┤
-    └── Agent 5: Analyzes domain 5 documents ──┘
-                                                |
-                                    Synthesize into SitRep
-                                                |
-                                    Present draft for review
-                                                |
-                                    Save + optional Slack delivery
+Each agent classifies findings as **CRITICAL** (needs decision today), **WATCH** (trending negative), or **ON TRACK** (within tolerance).
+
+## Installation
+
+```bash
+/plugin install chiKeka/csitrep-generator
 ```
 
-## Requirements
+Restart Claude Code after installation for skills to load.
 
-- Claude Code (Pro, Max, Teams, or Enterprise plan)
-- Python 3 + pandas (for Excel conversion, optional)
-- pandoc (for Word conversion, optional)
+### Requirements
 
-## Author
+- Claude Code (Pro, Max, Teams, or Enterprise)
 
-Bruno Chikeka
+### Optional (for Office file conversion)
+
+```bash
+brew install pandoc
+pip3 install pandas openpyxl python-docx python-pptx xlrd
+```
+
+Office files (.xlsx, .docx, .pptx) are auto-converted on session start. PDF, CSV, TXT, JSON, XML, YAML, and images work natively.
+
+## Quick Start
+
+```
+/csitrep-generator:setup          # Configure your project
+# Drop documents into data folders
+/csitrep-generator:generate       # Generate your first report
+```
+
+New to the plugin? Run `/csitrep-generator:onboard` for a step-by-step walkthrough.
+
+## Commands
+
+### Core
+
+| Command | Description |
+|---------|-------------|
+| `/csitrep-generator:generate` | Generate a full Situation Report |
+| `/csitrep-generator:dashboard` | Quick one-line status per domain |
+| `/csitrep-generator:dashboard-ui` | Interactive HTML dashboard |
+| `/csitrep-generator:compare` | Compare reports and identify trends |
+
+### Setup & Configuration
+
+| Command | Description |
+|---------|-------------|
+| `/csitrep-generator:setup` | Configure a new project |
+| `/csitrep-generator:team-setup` | One-stop admin setup (project + Slack + schedule) |
+| `/csitrep-generator:onboard` | Guided walkthrough for new users |
+| `/csitrep-generator:import` | Import from Jira, Procore, MS Project, Monday.com, Asana, Smartsheet |
+| `/csitrep-generator:validate` | Check data quality before generating |
+
+### Tracking
+
+| Command | Description |
+|---------|-------------|
+| `/csitrep-generator:track-risks` | Manage project risk register |
+| `/csitrep-generator:track-actions` | Track action items across reports |
+| `/csitrep-generator:track-changes` | Log and analyze change orders |
+| `/csitrep-generator:feedback` | Flag incorrect findings for future improvement |
+
+### Automation
+
+| Command | Description |
+|---------|-------------|
+| `/csitrep-generator:schedule` | Set up recurring report generation (daily/weekly/monthly) |
+
+## Project Types and Domains
+
+### Construction
+Schedule, Cost & Budget, Safety, Contracts & Admin, Site Conditions
+
+### Software/IT
+Sprint & Roadmap, Budget & Resources, Quality & Testing, Dependencies & Blockers, Infrastructure & DevOps
+
+### Development Programs
+Workplan & Timeline, Budget & Grants, M&E, Stakeholders & Partners, Field Operations
+
+### Product/Manufacturing
+Development Timeline, Cost & Procurement, Quality & Compliance, Supply Chain, Production & Operations
+
+### Consulting
+Deliverables & Timeline, Budget & Billing, Client Satisfaction, Resource Allocation, Risk & Issues
+
+### Custom
+Define your own 5 domains with custom agent definitions generated during setup.
+
+## Data Folder Structure
+
+After setup, your project data folders are created based on project type. For example, a construction project:
+
+```
+data/
+├── config/
+│   └── project-info.json    # Project configuration
+├── schedule/                # Baseline schedules, daily logs, look-aheads
+├── cost/                    # Budget vs actual, change orders, invoices
+├── safety/                  # Incident reports, inspections, corrective actions
+├── contracts/               # RFIs, submittals, meeting minutes
+├── site/                    # Field reports, weather logs, equipment logs
+└── archive/                 # Timestamped snapshots (auto-created)
+```
+
+Drop any combination of PDF, CSV, Excel, Word, PowerPoint, images, or text files into the relevant folders.
+
+## Output
+
+Reports are saved to `output/csitrep/`:
+
+- `YYYY-MM-DD-sitrep.md` — Full markdown report
+- `YYYY-MM-DD-dashboard.html` — Interactive HTML dashboard (self-contained, no dependencies)
+
+### Report Sections
+
+1. Executive Summary
+2. KPI Summary (Critical / Watch / On Track counts + key metrics)
+3. Domain Status Summaries (status + metrics + findings per domain)
+4. Critical Issues (numbered, with domain and impact)
+5. Watch Items
+6. Recommended Actions (owner, due date, priority)
+7. Period-over-Period Trends (if prior reports exist)
+8. Risk Summary
+9. Open Actions Status
+
+### HTML Dashboard
+
+Professional consulting-style layout with:
+- KPI indicator row
+- Domain status cards with metrics
+- Critical issues and watch items tables
+- SVG trend charts (when quantitative data is available)
+- Search/filter, collapsible sections, print-to-PDF optimization
+
+## Slack Integration
+
+Configure during setup to auto-deliver reports to a Slack channel. The plugin uses MCP Slack integration:
+- Full report posted to channel
+- Critical items highlighted with mentions
+- Team members can reply in-thread with feedback
+- Dashboard link included
+
+## Automation
+
+Set up recurring reports with `/csitrep-generator:schedule`:
+- **Daily**: Weekdays at 4 PM
+- **Weekly**: Friday at 4 PM
+- **Monthly**: 1st of month at 9 AM
+- **Custom**: Provide your own cron expression
+
+Only the admin needs Claude Code installed. The team receives reports via Slack.
+
+## Importing from PM Tools
+
+The `/csitrep-generator:import` command supports:
+
+- Jira (CSV/JSON export)
+- MS Project (.mpp/.xml export)
+- Primavera P6 (.xer/.xml export)
+- Procore (report exports)
+- Monday.com (CSV export)
+- Asana (CSV export)
+- Smartsheet (Excel export)
+
+The import maps exported data to the correct data folders and saves the mapping for recurring imports.
+
+## Architecture
+
+The plugin uses a multi-agent architecture with 25 specialist agents (5 per project type) orchestrated by the generate skill:
+
+1. **Preprocessing** — Office files converted to readable formats
+2. **Archiving** — Current data snapshot preserved for version history
+3. **Validation** — Data folders checked for content
+4. **Parallel Dispatch** — All 5 domain agents run simultaneously
+5. **Synthesis** — Findings merged into structured report with trend analysis
+6. **Delivery** — Report saved and optionally posted to Slack
 
 ## License
 

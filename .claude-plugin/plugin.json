@@ -3,8 +3,10 @@
   "version": "3.0.0",
   "description": "Multi-agent Situation Report (SitRep) generator for any project type. Supports construction, software, development programs, product/manufacturing, consulting, and custom projects. Dispatches specialist agents to analyze documents and synthesizes findings into actionable reports.",
   "author": {
-    "name": "Bruno Chikeka"
+    "name": "Bruno Chikeka",
+    "url": "https://github.com/chiKeka"
   },
+  "homepage": "https://github.com/chiKeka/csitrep-generator",
   "repository": "https://github.com/chiKeka/csitrep-generator",
   "license": "MIT",
   "keywords": ["project-management", "reporting", "sitrep", "multi-agent", "construction", "software", "consulting"]
